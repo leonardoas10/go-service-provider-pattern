@@ -1,8 +1,8 @@
-package jsonplaceholders
+package provider
 
 import (
 	"encoding/json"
-	env "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/common/env"
+	env "github/leonardoas10/go-provider-pattern/src/pkg/common/env"
 	models "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/models"
 	"io"
 	"net/http"
