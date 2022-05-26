@@ -6,8 +6,8 @@ Using a structure of files like `provider` `service`, where in the last one, i c
 
 ### What is the benefit of separate provider and service?
 
-Service never know how Provider gonna find the data, it only matters if Provider give the struct that service are waiting for.
+Service package never know how Provider package gonna find the data, it only matters if Provider package give the struct that service package are waiting for.
 
-So, if the external provider change, we only have to change the code of Provider... adjusting the response to match Service.
+So, if the external provider change, we only have to change the code of Provider package... adjusting the response to match Service interface.
 
 Always decoupling...
