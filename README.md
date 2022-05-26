@@ -11,3 +11,8 @@ Service package never know how Provider package gonna find the data, it only mat
 So, if the external provider change, we only have to change the code of Provider package... adjusting the response to match Service interface.
 
 Always decoupling...
+
+# How to Run App
+
+-   Create .env file in src/cmd/main directory
+-   go run main.go inside src/cmd/main directory
