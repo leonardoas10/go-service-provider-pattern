@@ -22,6 +22,7 @@ Look inside Service pkg, exist an interface referencing a couple of functions th
 # How to Run App
 
 -   Create .env file in src/cmd/main directory
+-   go mod download
 -   go run main.go inside src/cmd/main directory
 
 or
