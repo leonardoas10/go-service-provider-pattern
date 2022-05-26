@@ -15,9 +15,9 @@ Service package never know how Provider package gonna find the data, it only mat
 
 So, if the external provider change, we only have to change the code of Provider package... adjusting the response to match Service interface.
 
-For that, exist an interface (Service pkg) referencing a couple of functions that needs to match if we want an instance of Service pkg.
+###### For more details
 
-Always decoupling...
+Look inside Service pkg, exist an interface referencing a couple of functions that needs to match if we want an instance of it. The Provider pkg, needs to accomplish the requirements of interface for use the internal logic/business logic.
 
 # How to Run App
 
