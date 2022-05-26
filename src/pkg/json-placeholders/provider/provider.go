@@ -17,11 +17,11 @@ func NewProvider() *provider  {
 	return &provider{}
 }
 
-func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolders, int, error) {
+func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) {
 	res, err := http.Get(env.GetEnvVariable("URL"))
 	
 	if err != nil {
-		return []models.JsonPlaceHolders{}, 500, err
+		return []models.JsonPlaceHolder{}, 500, err
 	}
 
 	defer res.Body.Close()
@@ -33,7 +33,7 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolders, int, error)
     bodyString := string(bodyBytes)
 
 
-	var users []models.JsonPlaceHolders
+	var users []models.JsonPlaceHolder
 	if err := json.Unmarshal([]byte(bodyString), &users); err != nil {
         panic(err)
     }
@@ -41,21 +41,21 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolders, int, error)
 	return users, res.StatusCode, nil
 }
 
-func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolders, int, error) {
+func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolder, int, error) {
 	res, err := http.Get(env.GetEnvVariable("URL") + strconv.Itoa(id))
 	
 	if err != nil {
-		return models.JsonPlaceHolders{}, 500, err
+		return models.JsonPlaceHolder{}, 500, err
 	}
 
-	r := new(models.JsonPlaceHolders)
+	r := new(models.JsonPlaceHolder)
 	errors := json.NewDecoder(res.Body).Decode(r)
 
 	if errors != nil {
-		return models.JsonPlaceHolders{}, 500, err
+		return models.JsonPlaceHolder{}, 500, err
 	}
 
-	return models.JsonPlaceHolders{
+	return models.JsonPlaceHolder{
 		UserId: r.UserId,
 		Id: r.Id,
 		Title: r.Title,

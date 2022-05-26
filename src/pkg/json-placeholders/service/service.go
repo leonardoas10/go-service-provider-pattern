@@ -6,8 +6,8 @@ import (
 )
 
 type JsonPlaceHoldersProvider interface {
-	GetJsonPlaceHolders() ([]models.JsonPlaceHolders, int, error)
-	GetJsonPlaceHolder(int) (models.JsonPlaceHolders, int, error)
+	GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error)
+	GetJsonPlaceHolder(int) (models.JsonPlaceHolder, int, error)
 }
 
 type service struct {
@@ -20,20 +20,21 @@ func NewService(j JsonPlaceHoldersProvider) *service {
 	}
 }
 
-func (s *service) WhoAreThey() ([]models.JsonPlaceHolders, int, error) {
+func (s *service) WhoAreThey() ([]models.JsonPlaceHolder, int, error) {
 	users, status, err := s.jsonPlaceHoldersProvider.GetJsonPlaceHolders()
 	if err != nil {
-		return users, status, fmt.Errorf("WhatToWear: %w", err)
+		fmt.Printf("Error WhoAreThey %s\n", err)
+		return users, status, fmt.Errorf("error: %w", err)
 	}
 
 	return users, status, nil
 }
 
-func (s *service) WhoIs(id int) (models.JsonPlaceHolders, int, error) {
+func (s *service) WhoIs(id int) (models.JsonPlaceHolder, int, error) {
 	user, status, err := s.jsonPlaceHoldersProvider.GetJsonPlaceHolder(id)
 	if err != nil {
-		return user, status, fmt.Errorf("WhatToWear: %w", err)
+		fmt.Printf("Error WhoIs %s\n", err)
+		return user, status, fmt.Errorf("error: %w", err)
 	}
-
 	return user, status, nil
 }
