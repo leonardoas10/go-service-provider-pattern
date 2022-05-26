@@ -16,3 +16,11 @@ Always decoupling...
 
 -   Create .env file in src/cmd/main directory
 -   go run main.go inside src/cmd/main directory
+
+or
+
+-   Install [ Docker Engine ](https://docs.docker.com/engine/install/) :fire:
+-   Build image `docker build -t go-provider-pattern .`
+-   Run container `docker run -dp 5000:3000 --name go-provider-pattern go-provider-pattern`
+-   Go to the app [ App ](http://127.0.0.1:5000/json-placeholders)
+-   Start reading code, interpreting functionalities and programming: smile:
