@@ -4,8 +4,8 @@ I wrote a simple project to practice `Provider Pattern in Golang`, Go is suitabl
 
 Using a structure of files like `provider` `service`, where:
 
--Provider pkg have the external logic
--Service pkg have the internal logic, for example, business logic.
+-   Provider pkg have the external logic
+-   Service pkg have the internal logic, for example, business logic.
 
 Insure of decoupling the app.. but
 
