@@ -2,13 +2,20 @@
 
 I wrote a simple project to practice `Provider Pattern in Golang`, Go is suitable for this, thanks to the implicit interface implementation and packages structure and naming, it could give us the chance to separate in a proper way the logic of external apis as the case of `placeholders`.
 
-Using a structure of files like `provider` `service`, where in the last one, i create a interface references a couple of func that needs to match if we want an instance of `service`
+Using a structure of files like `provider` `service`, where:
+
+-Provider pkg have the external logic
+-Service pkg have the internal logic, for example, business logic.
+
+Insure of decoupling the app.. but
 
 ### What is the benefit of separate provider and service?
 
 Service package never know how Provider package gonna find the data, it only matters if Provider package give the struct that service package are waiting for.
 
 So, if the external provider change, we only have to change the code of Provider package... adjusting the response to match Service interface.
+
+For that, exist an interface (Service pkg) referencing a couple of functions that needs to match if we want an instance of Service pkg.
 
 Always decoupling...
 
