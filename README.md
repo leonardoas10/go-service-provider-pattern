@@ -21,14 +21,28 @@ Look inside Service pkg, exist an interface referencing a couple of functions th
 
 # How to Run App
 
+### With Go
+
 -   Create .env file in src/cmd/main directory
 -   go mod download
 -   go run main.go inside src/cmd/main directory
 
-or
+## Or Docker
 
 -   Install [ Docker Engine ](https://docs.docker.com/engine/install/) :fire:
+
+Then, two options:
+
+### 1. Docker
+
 -   Build image `docker build -t go-provider-pattern .`
--   Run container `docker run -dp 5000:3000 --name go-provider-pattern go-provider-pattern`
--   Go to the app [ App ](http://127.0.0.1:5000/json-placeholders)
--   Start reading code, interpreting functionalities and programming: smile:
+-   Run container `docker run -v $(pwd):/app -dp 3005:3000 go-provider-pattern`
+-   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)
+
+### 2. Docker Compose
+
+-   Build image `docker-compose build .`
+-   Run container `docker-compose up -d`
+-   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)
+
+### Start reading code, interpreting functionalities and programming: smile:

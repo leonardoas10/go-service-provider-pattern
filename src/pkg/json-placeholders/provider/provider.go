@@ -32,7 +32,6 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) 
     }
     bodyString := string(bodyBytes)
 
-
 	var users []models.JsonPlaceHolder
 	if err := json.Unmarshal([]byte(bodyString), &users); err != nil {
         panic(err)

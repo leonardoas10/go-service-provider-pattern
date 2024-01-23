@@ -1,0 +1,12 @@
+version: '3.8'
+name: go-provider-pattern
+services:
+    api:
+        container_name: go-provider-pattern
+        build: .
+        ports:
+            - 3005:3000
+        volumes:
+            - ./:/app
+        env_file:
+            - ./src/cmd/main/.env

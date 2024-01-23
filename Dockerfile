@@ -1,19 +1,11 @@
-FROM golang:alpine AS build-env
-WORKDIR /provider-pattern
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
-COPY go.mod /provider-pattern/go.mod
-COPY go.sum /provider-pattern/go.sum
-RUN go mod download
-COPY . /provider-pattern
-RUN CGO_ENABLED=0 GOOS=linux go build -o build/provider-pattern ./src/cmd/main
+FROM golang:1.19-alpine
 
+RUN apk --no-cache add git
+RUN go install github.com/githubnemo/CompileDaemon@latest
 
-FROM alpine
-COPY ./src/cmd/main/.env /
-COPY --from=build-env /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=build-env /provider-pattern/build/provider-pattern /
+WORKDIR /app
 
-EXPOSE 3000
+# Copy the rest of the application files
+COPY ./ ./
 
-ENTRYPOINT ["/provider-pattern"]
+ENTRYPOINT CompileDaemon --build="go build -o build/goapp ./src/cmd/main" -command="./build/goapp" -build-dir=/app

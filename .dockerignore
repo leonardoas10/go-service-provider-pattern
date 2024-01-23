@@ -1,0 +1,15 @@
+# Exclude .env file
+.env
+
+# Exclude version control files
+.git
+.gitignore
+
+# Exclude local development files
+.vscode
+.idea
+
+# Exclude build artifacts
+build/
+bin/
+*.log
