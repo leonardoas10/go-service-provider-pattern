@@ -1,3 +1,4 @@
 .env
 gobuild
 goapp
+build
