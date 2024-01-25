@@ -9,6 +9,7 @@ type JsonPlaceHoldersProvider interface {
 	GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error)
 	GetJsonPlaceHolder(int) (models.JsonPlaceHolder, int, error)
 	UpdateJsonPlaceHolder(models.UpdateJsonPlaceHolder) (models.JsonPlaceHolder, int, error)
+	ConcurrentChangeTitles() ([]models.JsonPlaceHolder, int, error)
 }
 
 type service struct {
@@ -47,4 +48,14 @@ func (s *service) UpdateJsonPlaceHolder(jsonPlaceholder models.UpdateJsonPlaceHo
 		return user, status, fmt.Errorf("error: %w", err)
 	}
 	return user, status, nil
+}
+
+func (s *service) ConcurrentChangeTitles() ([]models.JsonPlaceHolder, int, error)  {
+	users, status, err := s.jsonPlaceHoldersProvider.ConcurrentChangeTitles()
+	if err != nil {
+		fmt.Printf("Error ConcurrentChangeTitles %s\n", err)
+		return users, status, fmt.Errorf("error: %w", err)
+	}
+
+	return users, status, nil
 }

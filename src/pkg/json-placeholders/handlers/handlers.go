@@ -48,6 +48,18 @@ func GetJsonPlaceHolder(c echo.Context) error {
     return c.JSON(status, response)
 }
 
+func ConcurrentChangeTitles(c echo.Context) error {
+    jsonplaceholdersProvider := provider.NewProvider()
+    jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)
+
+    response, status, err := jsonplaceholdersService.ConcurrentChangeTitles()
+    if err != nil {
+        return c.JSON(status, map[string]string{"error": err.Error()})
+    }
+
+    return c.JSON(status, response)
+}
+
 func UpdateJsonPlaceHolder(c echo.Context) error  {
     jsonplaceholdersProvider := provider.NewProvider()
     jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)

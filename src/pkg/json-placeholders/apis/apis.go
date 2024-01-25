@@ -13,4 +13,5 @@ func JsonplaceholdersGroup(e *echo.Group)  {
 	e.GET("/:id", handlersJsonPlaceHolders.GetJsonPlaceHolder, customMiddlewares.ParamsValidatorMiddleware("id"), middleware.Logger())
 	e.GET("", handlersJsonPlaceHolders.GetJsonPlaceHolders, middleware.Logger())
 	e.PUT("", handlersJsonPlaceHolders.UpdateJsonPlaceHolder,  customMiddlewares.BodyValidatorMiddleware(&structs.RequestUpdateJsonPlaceHolder{}), middleware.Logger())
+	e.GET("/concurrent-change-titles",  handlersJsonPlaceHolders.ConcurrentChangeTitles, middleware.Logger())
 }
