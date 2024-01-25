@@ -10,6 +10,7 @@ import (
 )
 
 func JsonplaceholdersGroup(e *echo.Group)  {
+	e.GET("/:id", handlersJsonPlaceHolders.GetJsonPlaceHolder, customMiddlewares.ParamsValidatorMiddleware("id"), middleware.Logger())
 	e.GET("", handlersJsonPlaceHolders.GetJsonPlaceHolders, middleware.Logger())
-	e.POST("", handlersJsonPlaceHolders.GetJsonPlaceHolder,  customMiddlewares.BodyValidatorMiddleware(&structs.RequestId{}), middleware.Logger())
+	e.PUT("", handlersJsonPlaceHolders.UpdateJsonPlaceHolder,  customMiddlewares.BodyValidatorMiddleware(&structs.RequestUpdateJsonPlaceHolder{}), middleware.Logger())
 }

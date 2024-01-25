@@ -66,3 +66,16 @@ func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolder, int, erro
 		Completed: jsonPlaceHolder.Completed,
 	}, res.StatusCode, nil
 }
+
+func (p *provider) UpdateJsonPlaceHolder(jsonPlacerHolder models.UpdateJsonPlaceHolder) (models.JsonPlaceHolder, int, error)  {
+	retrieveJsonPlaceHolder, status, err := p.GetJsonPlaceHolder(jsonPlacerHolder.Id)
+
+	if err != nil {
+		return models.JsonPlaceHolder{}, 500, err
+    }
+
+	retrieveJsonPlaceHolder.Title = jsonPlacerHolder.Title
+
+	return retrieveJsonPlaceHolder, status, nil
+
+}

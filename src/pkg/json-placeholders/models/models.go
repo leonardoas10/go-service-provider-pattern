@@ -7,6 +7,11 @@ type JsonPlaceHolder struct {
 	Completed  bool `json:"completed"`
 }
 
+type UpdateJsonPlaceHolder struct {
+	Id int `json:"id"`
+	Title string `json:"title"`
+}
+
 type JsonPlaceHolderId struct {
 	Id int 
 }

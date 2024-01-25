@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"reflect"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -59,6 +60,39 @@ func BodyValidatorMiddleware(expectedStruct interface{}) echo.MiddlewareFunc {
 		}
 	}
 }
+
+func ParamsValidatorMiddleware(requiredParams ...string) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			// Get the path parameters
+			params := c.ParamNames()
+			fmt.Println("params => ", params)
+
+			// Check if all required parameters exist
+			missingParams := []string{}
+			paramSet := make(map[string]struct{})
+
+			for _, p := range params {
+				paramSet[p] = struct{}{}
+			}
+
+			for _, param := range requiredParams {
+				if _, found := paramSet[param]; !found {
+					missingParams = append(missingParams, param)
+				}
+			}
+
+			if len(missingParams) > 0 {
+				errorMessage := fmt.Sprintf("Missing required parameters: %s", strings.Join(missingParams, ", "))
+				return echo.NewHTTPError(http.StatusBadRequest, errorMessage)
+			}
+
+			return next(c)
+		}
+	}
+}
+
+
 
 
 
