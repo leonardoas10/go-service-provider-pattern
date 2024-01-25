@@ -2,6 +2,7 @@ package provider
 
 import (
 	"encoding/json"
+	"fmt"
 	env "github/leonardoas10/go-provider-pattern/src/pkg/common/env"
 	models "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/models"
 	"io"
@@ -41,23 +42,27 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) 
 }
 
 func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolder, int, error) {
-	res, err := http.Get(env.GetEnvVariable("URL") + strconv.Itoa(id))
+	res, err := http.Get(env.GetEnvVariable("URL") + "/" +strconv.Itoa(id))
 	
 	if err != nil {
 		return models.JsonPlaceHolder{}, 500, err
 	}
+	defer res.Body.Close()
 
-	r := new(models.JsonPlaceHolder)
-	errors := json.NewDecoder(res.Body).Decode(r)
+	jsonPlaceHolder := new(models.JsonPlaceHolder)
+	errors := json.NewDecoder(res.Body).Decode(jsonPlaceHolder)
 
 	if errors != nil {
 		return models.JsonPlaceHolder{}, 500, err
 	}
 
+	// Print the content of the jsonPlaceHolder variable
+	fmt.Printf("jsonPlaceHolder Object: %+v\n", jsonPlaceHolder)
+
 	return models.JsonPlaceHolder{
-		UserId: r.UserId,
-		Id: r.Id,
-		Title: r.Title,
-		Completed: r.Completed,
+		UserId: jsonPlaceHolder.UserId,
+		Id: jsonPlaceHolder.Id,
+		Title: jsonPlaceHolder.Title,
+		Completed: jsonPlaceHolder.Completed,
 	}, res.StatusCode, nil
 }

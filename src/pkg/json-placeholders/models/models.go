@@ -1,4 +1,4 @@
-package jsonplaceholders
+package models
 
 type JsonPlaceHolder struct {
 	UserId int `json:"userId"`
@@ -7,6 +7,6 @@ type JsonPlaceHolder struct {
 	Completed  bool `json:"completed"`
 }
 
-type PostJsonPlaceHolder struct {
+type JsonPlaceHolderId struct {
 	Id int 
 }
