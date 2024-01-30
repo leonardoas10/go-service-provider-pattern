@@ -5,12 +5,11 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	_ "github.com/joho/godotenv/autoload"
 )
 
 func init() {
     // Load environment variables from .env file
-    if err := godotenv.Load(".env"); err != nil {
+    if err := godotenv.Load(); err != nil {
         log.Println("Error loading .env file")
     }
 }

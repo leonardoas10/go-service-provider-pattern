@@ -5,19 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/models"
-	jsonPlaceHoldersProvider "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/provider/json-placeholders"
-	mongoProvider "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/provider/mongo"
 	service "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/service"
 	"io/ioutil"
 
 	"github.com/labstack/echo/v4"
 )
 
-func GetJsonPlaceHolders(c echo.Context) error {
-	jsonplaceholdersProvider := mongoProvider.NewProvider()
-	jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)
+func GetJsonPlaceHolders(p service.JsonPlaceHoldersProvider, c echo.Context) error {
+    service := service.NewService(p)
 
-	response, status, err := jsonplaceholdersService.WhoAreThey()
+	response, status, err := service.WhoAreThey()
 
 	if err != nil {
 		return c.JSON(status, err)
@@ -26,15 +23,14 @@ func GetJsonPlaceHolders(c echo.Context) error {
 	return c.JSON(status, response)
 }
 
-func GetJsonPlaceHolder(c echo.Context) error {
-    jsonplaceholdersProvider := mongoProvider.NewProvider()
-    jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)
+func GetJsonPlaceHolder(p service.JsonPlaceHoldersProvider, c echo.Context) error {
+    service := service.NewService(p)
       
     // Get the ID from the URL parameters
     id := c.Param("id")
     fmt.Println("ID from URL: ", id)
 
-    response, status, err := jsonplaceholdersService.WhoIs(id)
+    response, status, err := service.WhoIs(id)
 
     if err != nil {
         return c.JSON(status, map[string]string{"error": err.Error()})
@@ -43,11 +39,10 @@ func GetJsonPlaceHolder(c echo.Context) error {
     return c.JSON(status, response)
 }
 
-func ConcurrentChangeTitles(c echo.Context) error {
-    jsonplaceholdersProvider := mongoProvider.NewProvider()
-    jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)
+func ConcurrentChangeTitles(p service.JsonPlaceHoldersProvider, c echo.Context) error {
+    service := service.NewService(p)
 
-    response, status, err := jsonplaceholdersService.ConcurrentChangeTitles()
+    response, status, err := service.ConcurrentChangeTitles()
     if err != nil {
         return c.JSON(status, map[string]string{"error": err.Error()})
     }
@@ -55,9 +50,8 @@ func ConcurrentChangeTitles(c echo.Context) error {
     return c.JSON(status, response)
 }
 
-func UpdateJsonPlaceHolder(c echo.Context) error  {
-    jsonplaceholdersProvider := jsonPlaceHoldersProvider.NewProvider()
-    jsonplaceholdersService := service.NewService(jsonplaceholdersProvider)
+func UpdateJsonPlaceHolder(p service.JsonPlaceHoldersProvider, c echo.Context) error  {
+    service := service.NewService(p)
 
        // Read the request body
     body, err := ioutil.ReadAll(c.Request().Body)
@@ -80,7 +74,7 @@ func UpdateJsonPlaceHolder(c echo.Context) error  {
         return c.JSON(400, map[string]string{"error": "Invalid JSON format"})
     }
 
-    response, status, err := jsonplaceholdersService.UpdateJsonPlaceHolder(*postJsonPlaceHolder)
+    response, status, err := service.UpdateJsonPlaceHolder(*postJsonPlaceHolder)
     if err != nil {
         return c.JSON(status, map[string]string{"error": err.Error()})
     }

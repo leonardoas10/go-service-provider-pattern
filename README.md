@@ -35,4 +35,4 @@ Look inside Service pkg, exist an interface referencing a couple of functions th
 -   Run container `docker-compose up -d`
 -   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)
 
-### Start reading code, interpreting functionalities and programming: smile:
+### Start reading code, interpreting functionalities and programming :smile:
