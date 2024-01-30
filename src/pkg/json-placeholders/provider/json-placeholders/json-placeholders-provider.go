@@ -1,4 +1,4 @@
-package provider
+package jsonPlaceHolderProvider
 
 import (
 	"encoding/json"
@@ -20,9 +20,17 @@ func NewProvider() *provider  {
 	return &provider{}
 }
 
+type jsonPlaceHolderIntermediate struct {
+	UserId int `json:"userId"`
+	Id int `json:"id"`
+	Title string `json:"title"`
+	Completed  bool `json:"completed"`
+}
+
+
 func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) {
 	res, err := http.Get(env.GetEnvVariable("URL"))
-	
+
 	if err != nil {
 		return []models.JsonPlaceHolder{}, 500, err
 	}
@@ -31,31 +39,48 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) 
 
 	bodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
-        log.Fatal(err)
-    }
-    bodyString := string(bodyBytes)
+		log.Fatal(err)
+	}
+	bodyString := string(bodyBytes)
 
+	// Decode into intermediate structure
+	var intermediateUsers []jsonPlaceHolderIntermediate
+	if err := json.Unmarshal([]byte(bodyString), &intermediateUsers); err != nil {
+		log.Fatal(err)
+	}
+
+	// Convert intermediate structure to the desired type
 	var users []models.JsonPlaceHolder
-	if err := json.Unmarshal([]byte(bodyString), &users); err != nil {
-		panic(err)
-    }
+	for _, intermediateUser := range intermediateUsers {
+		user := models.JsonPlaceHolder{
+			Id: strconv.Itoa(intermediateUser.Id),
+			UserId: strconv.Itoa(intermediateUser.UserId),
+			Title: intermediateUser.Title,
+			Completed: intermediateUser.Completed,
+			
+		}
+		users = append(users, user)
+	}	
+
 	fmt.Printf("Number of users: %d\n", len(users))
 
 	return users, res.StatusCode, nil
 }
 
-func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolder, int, error) {
-	res, err := http.Get(env.GetEnvVariable("URL") + "/" +strconv.Itoa(id))
+func (p *provider) GetJsonPlaceHolder(id string) (models.JsonPlaceHolder, int, error) {
+	fmt.Println("id ==> ", id)
+	res, err := http.Get(env.GetEnvVariable("URL") + "/" + id)
 	
 	if err != nil {
 		return models.JsonPlaceHolder{}, 500, err
 	}
 	defer res.Body.Close()
 
-	jsonPlaceHolder := new(models.JsonPlaceHolder)
+	jsonPlaceHolder := new(jsonPlaceHolderIntermediate)
 	errors := json.NewDecoder(res.Body).Decode(jsonPlaceHolder)
 
 	if errors != nil {
+		log.Fatal(errors)
 		return models.JsonPlaceHolder{}, 500, err
 	}
 
@@ -63,8 +88,8 @@ func (p *provider) GetJsonPlaceHolder(id int) (models.JsonPlaceHolder, int, erro
 	fmt.Printf("jsonPlaceHolder Object: %+v\n", jsonPlaceHolder)
 
 	return models.JsonPlaceHolder{
-		UserId: jsonPlaceHolder.UserId,
-		Id: jsonPlaceHolder.Id,
+		UserId: strconv.Itoa(jsonPlaceHolder.UserId),
+		Id: strconv.Itoa(jsonPlaceHolder.Id),
 		Title: jsonPlaceHolder.Title,
 		Completed: jsonPlaceHolder.Completed,
 	}, res.StatusCode, nil
@@ -107,8 +132,8 @@ func (p *provider) ConcurrentChangeTitles() ([]models.JsonPlaceHolder, int, erro
 					break // Break when all users are processed
 				}
 
-				newTitle := fmt.Sprintf("Titulo %s", strconv.Itoa(userIndex))
-				fmt.Println("user => ", userIndex)
+				newTitle := fmt.Sprintf("Titulo %s", strconv.Itoa(userIndex + 1))
+
 				// No need for mutex when updating a specific index in the slice
 				users[userIndex].Title = newTitle
 

@@ -41,7 +41,7 @@ Then, two options:
 
 ### 2. Docker Compose
 
--   Build image `docker-compose build .`
+-   Build image `docker-compose build`
 -   Run container `docker-compose up -d`
 -   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)
 

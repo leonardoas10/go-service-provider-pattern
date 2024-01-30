@@ -7,7 +7,7 @@ import (
 
 type JsonPlaceHoldersProvider interface {
 	GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error)
-	GetJsonPlaceHolder(int) (models.JsonPlaceHolder, int, error)
+	GetJsonPlaceHolder(string) (models.JsonPlaceHolder, int, error)
 	UpdateJsonPlaceHolder(models.UpdateJsonPlaceHolder) (models.JsonPlaceHolder, int, error)
 	ConcurrentChangeTitles() ([]models.JsonPlaceHolder, int, error)
 }
@@ -32,7 +32,7 @@ func (s *service) WhoAreThey() ([]models.JsonPlaceHolder, int, error) {
 	return users, status, nil
 }
 
-func (s *service) WhoIs(id int) (models.JsonPlaceHolder, int, error) {
+func (s *service) WhoIs(id string) (models.JsonPlaceHolder, int, error) {
 	user, status, err := s.jsonPlaceHoldersProvider.GetJsonPlaceHolder(id)
 	if err != nil {
 		fmt.Printf("Error WhoIs %s\n", err)

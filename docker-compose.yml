@@ -1,12 +1,38 @@
 version: '3.8'
 name: go-provider-pattern
 services:
-    api:
+    go-provider-pattern:
         container_name: go-provider-pattern
         build: .
         ports:
             - 3005:3000
         volumes:
             - ./:/app
-        env_file:
-            - ./src/cmd/main/.env
+        env_file: .env
+        networks:
+            - app-network
+        depends_on:
+            - mongo-db
+    mongo-db:
+        image: mongo:4.1.8-xenial
+        container_name: mongo-db
+        restart: unless-stopped
+        env_file: .env
+        ports:
+            - 27017:27017
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+            - MONGO_INITDB_DATABASE=$MONGO_DB
+        volumes:
+            - dbdata:/data/db
+            - ./mongo-seed/init.js:/docker-entrypoint-initdb.d/init.js:ro
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:

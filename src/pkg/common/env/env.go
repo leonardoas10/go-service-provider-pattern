@@ -10,7 +10,7 @@ import (
 
 func init() {
     // Load environment variables from .env file
-    if err := godotenv.Load("src/cmd/main/.env"); err != nil {
+    if err := godotenv.Load(".env"); err != nil {
         log.Println("Error loading .env file")
     }
 }
