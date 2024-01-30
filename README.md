@@ -30,17 +30,7 @@ Look inside Service pkg, exist an interface referencing a couple of functions th
 ## Or Docker
 
 -   Install [ Docker Engine ](https://docs.docker.com/engine/install/) :fire:
-
-Then, two options:
-
-### 1. Docker
-
--   Build image `docker build -t go-provider-pattern .`
--   Run container `docker run -v $(pwd):/app --name go-provider-pattern -dp 3005:3000 go-provider-pattern`
--   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)
-
-### 2. Docker Compose
-
+-   In `root` execute the following...
 -   Build image `docker-compose build`
 -   Run container `docker-compose up -d`
 -   Go to the app [ App ](http://127.0.0.1:3005/json-placeholders)

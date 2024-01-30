@@ -16,12 +16,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-
 type provider struct {
 	client *mongo.Client
 	database *mongo.Database
 }
-
 
 func NewProvider() (*provider)  {
 	mongoUsername := env.GetEnvVariable("MONGO_USERNAME")
@@ -59,7 +57,6 @@ type JsonPlaceHolderFromMongo struct {
 	Role string `bson:"role"`
 }
 
-
 func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) {
     collection := p.database.Collection(env.GetEnvVariable("MONGO_USER_COLLECTION"))
     cursor, err := collection.Find(context.Background(), bson.D{{}})
@@ -77,7 +74,6 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) 
             fmt.Println("Error decoding document:", err)
             return nil, 500, err
         }
-		fmt.Println("user => ", user)
 
 		if err != nil {
             fmt.Println("Error converting ObjectID to int:", err)
@@ -88,7 +84,6 @@ func (p *provider) GetJsonPlaceHolders() ([]models.JsonPlaceHolder, int, error) 
     }
 
     fmt.Printf("Number of users: %d\n", len(users))
-	fmt.Println("Users => ", users)
 
     return users, 200, nil
 }
