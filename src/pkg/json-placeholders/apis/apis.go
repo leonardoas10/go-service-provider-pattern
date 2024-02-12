@@ -4,6 +4,7 @@ import (
 	handlersJsonPlaceHolders "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/handlers"
 	jsonPlaceHoldersProvider "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/provider/json-placeholders"
 	mongoProvider "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/provider/mongo"
+	postgresProvider "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/provider/postgre"
 	structs "github/leonardoas10/go-provider-pattern/src/pkg/json-placeholders/structs"
 	customMiddlewares "github/leonardoas10/go-provider-pattern/src/pkg/middlewares"
 
@@ -13,7 +14,7 @@ import (
 
 func JsonplaceholdersGroup(e *echo.Group)  {
 	e.GET("/:id", func(c echo.Context) error {
-		return handlersJsonPlaceHolders.GetJsonPlaceHolder(jsonPlaceHoldersProvider.NewProvider(), c)
+		return handlersJsonPlaceHolders.GetJsonPlaceHolder(postgresProvider.NewProvider(), c)
 	}, customMiddlewares.ParamsValidatorMiddleware("id"), middleware.Logger())
 
 	e.GET("", func(c echo.Context) error {
@@ -25,6 +26,6 @@ func JsonplaceholdersGroup(e *echo.Group)  {
 	}, customMiddlewares.BodyValidatorMiddleware(&structs.RequestUpdateJsonPlaceHolder{}), middleware.Logger())
 
 	e.GET("/concurrent-change-titles", func(c echo.Context) error {
-		return handlersJsonPlaceHolders.ConcurrentChangeTitles(jsonPlaceHoldersProvider.NewProvider(), c)
+		return handlersJsonPlaceHolders.ConcurrentChangeTitles(postgresProvider.NewProvider(), c)
 	}, middleware.Logger())
 }
