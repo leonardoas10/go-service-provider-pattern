@@ -2,3 +2,4 @@
 gobuild
 goapp
 build
+coverage.*
