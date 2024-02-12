@@ -1,23 +1,20 @@
 # Go Provider Pattern
 
-I wrote a simple project to practice `Provider Pattern in Golang`, Go is suitable for this, thanks to the implicit interface implementation and packages structure and naming, it could give us the chance to separate in a proper way the logic of external apis as the case of `placeholders`.
+This project explores the Provider Pattern in Go, leveraging its built-in support for implicit interfaces and modular package structures. By segregating the logic of external APIs, such as placeholders, into the `provider package` and internal application logic into the `service package`, the application achieves a cleaner separation of concerns.
 
-Using a structure of files like `provider` `service`, where:
+#### Benefits of Separation
 
--   Provider pkg have the external logic
--   Service pkg have the internal logic, for example, business logic.
+Separating the provider and service functionalities offers the following advantages:
 
-Insure of decoupling the app.. but
+Decoupling: The service package remains agnostic to how data is retrieved, focusing solely on the expected data structure provided by the provider.
 
-### What is the benefit of separate provider and service?
+Flexibility: Adapting to changes in external providers becomes straightforward, as adjustments are confined to the provider package, ensuring minimal impact on the service.
 
-Service package never know how Provider package gonna find the data, it only matters if Provider package give the struct that service package are waiting for.
+#### Implementation Details
 
-So, if the external provider change, we only have to change the code of Provider package... adjusting the response to match Service interface.
+Provider Package: Contains the logic for interfacing with external APIs or data sources, adhering to the predefined interface expected by the service.
 
-###### For more details
-
-Look inside Service pkg, exist an interface referencing a couple of functions that needs to match if we want an instance of it. The Provider pkg, needs to accomplish the requirements of interface for use the internal logic/business logic.
+Service Package: Houses the core application logic, including business rules, and relies on the defined interface to interact with the provider seamlessly.
 
 # How to Run App
 
