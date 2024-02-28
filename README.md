@@ -1,4 +1,4 @@
-# Go Provider Pattern
+# Go Service Provider Pattern
 
 This project explores the Provider Pattern in Go, leveraging its built-in support for implicit interfaces and modular package structures. By segregating the logic of external APIs, such as placeholders, into the `provider package` and internal application logic into the `service package`, the application achieves a cleaner separation of concerns.
 
